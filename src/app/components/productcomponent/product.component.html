@@ -1,0 +1,92 @@
+
+<div class="container-fluid">
+
+<loading-bar #loadingBar 
+  [height]="height" 
+  [color]="color" 
+  [runInterval]="runInterval">
+</loading-bar>
+
+<span style="font-family:'Courier New', Courier, monospace;"  
+*ngIf="displayTable==false && errorResponseMessage==false">
+  Please wait while trying to fetch products list details
+</span>
+
+<span style="font-family:'Courier New', Courier, monospace;"  
+*ngIf="errorResponseMessage==true">
+  Could not be able to fetch the records of products list details
+</span>
+
+<div *ngIf="displayTable"  
+class="pad panel panel-default col-md-12 col-lg-12 col-sm-12 center">
+
+<table class="table table-hover table-striped table-sm table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th class="pointer" (click)="sortedColumn('productName')">Product
+        <i class="fa" [ngClass]="{'fa-sort':column != 'productName' ,
+                       'fa-sort-down':(column == 'productName' && direction == -1),
+                       'fa-sort-up':(column == 'productName' && direction == 1)
+                      }">
+        </i>
+      </th>
+      <th  class="pointer" (click)="sortedColumn('reviewStarImagePath')">Stars
+        <i class="fa" [ngClass]="{'fa-sort':column != 'reviewStarImagePath',
+                       'fa-sort-down':(column == 'reviewStarImagePath' && direction == -1),
+                       'fa-sort-up':(column == 'reviewStarImagePath' && direction == 1)
+                      }">
+        </i>
+      </th>
+      <th class="pointer" (click)="sortedColumn('operatingSystem')">OS
+        <i class="fa" [ngClass]="{'fa-sort':column != 'operatingSystem',
+                       'fa-sort-down':(column == 'operatingSystem' && direction == -1),
+                       'fa-sort-up':(column == 'operatingSystem' && direction == 1)
+                      }">
+        </i>
+      </th>
+      <th class="pointer" (click)="sortedColumn('categoriesName')">Category
+        <i class="fa" [ngClass]="{'fa-sort':column != 'categoriesName',
+                       'fa-sort-down':(column == 'categoriesName' && direction == -1),
+                       'fa-sort-up':(column == 'categoriesName' && direction == 1)
+                      }">
+        </i>
+      </th>
+      <th class="pointer" (click)="sortedColumn('listPriceSku')">Price Sku
+        <i class="fa" [ngClass]="{'fa-sort':column != 'listPriceSku',
+                       'fa-sort-down':(column == 'listPriceSku' && direction == -1),
+                       'fa-sort-up':(column == 'listPriceSku' && direction == 1)
+                      }">
+        </i>
+      </th>
+      <th class="pointer" (click)="sortedColumn('rating')">Rating
+        <i class="fa" [ngClass]="{'fa-sort':column != 'rating',
+                       'fa-sort-down':(column == 'rating' && direction == -1),
+                       'fa-sort-up':(column == 'rating' && direction == 1)
+                      }">
+        </i>
+      </th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <tr *ngFor=" let product of products | orderBy:{
+      direction:direction,
+      property:column
+    } | searchBy:searchText;
+    let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{product.productName}}</td>
+      <td>
+        <img [src]=product.reviewStarImagePath>
+      </td>
+      <td>{{product.operatingSystem}}</td>
+      <td>{{product.categoriesName}}</td>
+      <td>{{product.listPriceSku}}</td>
+      <td>{{product.rating}}</td>
+      </tr>    
+  </tbody>
+</table>
+
+</div>
+</div>
